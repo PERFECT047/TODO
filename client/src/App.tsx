@@ -2,6 +2,7 @@ import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import Todos from './Page/Todos';
 import CompletedTodos from './Page/CompletedTodos';
 import AddTask from './Page/AddTask';
+import EditTask from './Page/EditTask';
 
 const App = () => {
 
@@ -11,7 +12,7 @@ const App = () => {
         <Route path={"/"} element={<Todos/>}/>
         <Route path={"/complete"} element={<CompletedTodos/>}/>
         <Route path={"/add"} element={<AddTask/>}/>
-        {/* <Route path={"/edit"} element={<AddTask/>}/> */}
+        <Route path={"/edit"} element={<EditTask/>}/>
       </Routes>
     </BrowserRouter>
   )

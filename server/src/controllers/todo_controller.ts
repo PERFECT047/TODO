@@ -75,4 +75,19 @@ const deleteTodo = async(req: Request, res: Response) => {
 
 };
 
-export { createTodo, getTodos, updateTodo, deleteTodo };
+const completeTodos = async(req: Request, res: Response) => {
+
+    try{
+        const completedTodos = await Todo.find({
+            completed: true
+        });
+        res.status(200);
+        res.json({ data: completedTodos, success: true });
+    }
+    catch(err: any){
+        res.status(500);
+        res.json({ data: err.message, success: false });
+    }
+}
+
+export { createTodo, getTodos, updateTodo, deleteTodo, completeTodos };
