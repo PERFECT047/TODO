@@ -1,0 +1,10 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+@import "tailwindcss";
+
+
+.pmclr{
+    background-color: #9395d3;
+}
+.pmbgclr{
+    background-color: #d6d7ef;
+}
