@@ -64,7 +64,7 @@ const TodoItem: React.FC<Todo> = ({ title, description, _id, completed }) => {
       <div className="flex items-center space-x-8">
         <button onClick={() => navigate(`/edit/${_id}`)}><ModeEditIcon className="pmhclr cursor-pointer hover:scale-110 transition-transform" /></button>
         <button onClick={deleteHandler}><DeleteIcon className="pmhclr cursor-pointer hover:scale-110 transition-transform" /></button>
-        <button onClick={completeHandler}><CheckCircleOutlineIcon className={"pmhclr cursor-pointer hover:scale-110 transition-transform " + (completed ? "font-black" : "")} /></button>
+        <button onClick={completeHandler}><CheckCircleOutlineIcon className={"pmhclr rounded-full transition-transform " + (completed ? "bg-gray-300" : "hover:scale-110 cursor-pointer")} /></button>
       </div>
     </div>
   );
