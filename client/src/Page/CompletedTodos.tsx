@@ -7,7 +7,7 @@ const CompletedTodos: React.FC = () => {
       <div className="flex flex-col h-full min-w-xl rounded-md bg-white overflow-hidden relative">
         <Header headingText="Completed Task"/>
         <main className="flex-grow overflow-y-auto">
-          <TodoList />
+          <TodoList type="completed"/>
         </main>
       </div>
     </div>

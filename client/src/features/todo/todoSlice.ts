@@ -8,16 +8,16 @@ const initialState: TodoState = {
     todos: [],
 };
 
-const todoSlice = createSlice({
-    name: 'todo',
+export const todoSlice = createSlice({
+    name: 'todos',
     initialState,
     reducers: {
         addTodo: (state, action) => {
             const todo = {
-                _id: action.payload._id,
-                title: action.payload.title,
-                description: action.payload.description,
-                completed: action.payload.completed
+                _id: action.payload.data._id,
+                title: action.payload.data.title,
+                description: action.payload.data.description,
+                completed: action.payload.data.completed
             };
             state.todos.push(todo);
         },
@@ -39,7 +39,7 @@ const todoSlice = createSlice({
                 todo.completed = true;
             }
         },
-        clearTodos: (state, action) => {
+        clearTodos: (state) => {
             state.todos = [];
         }
     }
@@ -48,36 +48,3 @@ const todoSlice = createSlice({
 export default todoSlice.reducer;
 export const { addTodo, deleteTodo, updateTodo, completeTodo, clearTodos } = todoSlice.actions;
 
-// const addTodo = (state: Todo[], action: PayloadAction<Todo>) => {
-//     const todo = {
-//         id: action.payload.id,
-//         title: action.payload.title,
-//         description: action.payload.description,
-//         completed: action.payload.completed
-//     };
-//     state.push(todo);
-// }
-
-// const removeTodo = (state: Todo[], action: PayloadAction< {id: string} >) => {
-//     return state.filter((todo) => todo.id !== action.payload.id);
-// } 
-
-// const editTodo = (state: Todo[], action: PayloadAction<Todo>) => {
-//     const editedTodo = {
-//         id: action.payload.id,
-//         title: action.payload.title,
-//         description: action.payload.description,
-//         completed: action.payload.completed
-//     };
-//     return state.map((todo) => todo.id == editedTodo.id ? editedTodo : todo);
-// }
-
-// const completeTodo = (state: Todo[], action: PayloadAction<Todo>) => {
-//     const completedTodo = {
-//         id: action.payload.id,
-//         title: action.payload.title,
-//         description: action.payload.description,
-//         completed: action.payload.completed
-//     };
-//     return state.map((todo) => todo.id == completedTodo.id ? completedTodo : todo);
-// }

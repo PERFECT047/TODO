@@ -1,10 +1,12 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Header from "../components/Header";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../features/todo/todoSlice";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { RootState } from "../store/store";
+import { addTodo } from "../features/todo/todoSlice";
+import { Todo } from "../models/models";
+import { useDispatch, useSelector } from "react-redux";
 
 type FormValues = {
   title: string;
@@ -16,6 +18,9 @@ const AddTask: React.FC = () => {
   const { id } = useParams();
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; 
   const dispatch = useDispatch();
+  const todos = useSelector((state: RootState) => state.todos);
+  const todo = todos.filter((todo: Todo) => todo._id == id);
+  console.log(todos);
   
   const {
     register,
@@ -33,9 +38,8 @@ const AddTask: React.FC = () => {
         description: data.description
       })
 
-      console.log(todo.data);
-
-      dispatch(clearTodo());
+      dispatch(clearTodo(id));
+      dispatch(addTodo(todo.data));
 
       reset();
     }
@@ -56,6 +60,7 @@ const AddTask: React.FC = () => {
             <input
               id="title"
               {...register("title", { required: "Title is required" })}
+              defaultValue={todo[0]?.title}
               placeholder="Title"
               className={`p-2 border-b mb-4 ${
                 errors.title ? "border-red-500" : "border-gray-300"
@@ -70,6 +75,7 @@ const AddTask: React.FC = () => {
             <input
               id="description"
               {...register("description", { required: "Description is required" })}
+              defaultValue={todo[0]?.description}
               placeholder="Detail"
               className={`p-2 border-b mt-8 mb-4 ${
                 errors.description ? "border-red-500" : "border-gray-300"
@@ -83,7 +89,7 @@ const AddTask: React.FC = () => {
             
             <button
               type="submit"
-              className="mt-16 pmclr h-12 font-bold text-white py-2 px-4 rounded-xl hover:bg-blue-600 transition"
+              className="mt-16 pmclr h-12 font-bold text-white py-2 px-4 rounded-xl hover:scale-102"
             >
               ADD
             </button>
@@ -95,7 +101,7 @@ const AddTask: React.FC = () => {
 };
 
 export default AddTask;
-function clearTodo(): any {
+function clearTodo(id: string | undefined): any {
   throw new Error("Function not implemented.");
 }
 

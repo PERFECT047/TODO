@@ -33,7 +33,7 @@ const AddTask: React.FC = () => {
 
       console.log(todo.data);
 
-      dispatch(addTodo(todo));
+      dispatch(addTodo(todo.data));
 
       reset();
     }
@@ -82,7 +82,7 @@ const AddTask: React.FC = () => {
 
             <button
               type="submit"
-              className="mt-16 pmclr h-12 font-bold text-white py-2 px-4 rounded-xl hover:bg-blue-600 transition"
+              className="mt-16 pmclr h-12 font-bold text-white py-2 px-4 rounded-xl hover:scale-102"
             >
               ADD
             </button>

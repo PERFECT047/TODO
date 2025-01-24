@@ -26,7 +26,7 @@ const TodoItem: React.FC<Todo> = ({ title, description, _id, completed }) => {
         description,
         completed
       }
-      dispatch(deleteTodo(todo));
+      dispatch(deleteTodo(todo._id));
     }
     catch(err){
       console.log(err);
@@ -45,8 +45,7 @@ const TodoItem: React.FC<Todo> = ({ title, description, _id, completed }) => {
       console.log(todo);
       const res = await axios.put(`${BACKEND_URL}${_id}`, todo);
       console.log(res);
-      dispatch(deleteTodo(todo));
-      dispatch(completeTodo(todo));
+      dispatch(completeTodo(todo._id));
     }
     catch(err){
       console.log(err);
