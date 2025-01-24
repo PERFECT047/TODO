@@ -12,7 +12,7 @@ const App = () => {
         <Route path={"/"} element={<Todos/>}/>
         <Route path={"/complete"} element={<CompletedTodos/>}/>
         <Route path={"/add"} element={<AddTask/>}/>
-        <Route path={"/edit"} element={<EditTask/>}/>
+        <Route path={"/edit/:id"} element={<EditTask/>}/>
       </Routes>
     </BrowserRouter>
   )

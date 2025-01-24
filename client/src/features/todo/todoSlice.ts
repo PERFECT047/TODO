@@ -14,7 +14,7 @@ const todoSlice = createSlice({
     reducers: {
         addTodo: (state, action) => {
             const todo = {
-                _id: action.payload.id,
+                _id: action.payload._id,
                 title: action.payload.title,
                 description: action.payload.description,
                 completed: action.payload.completed
@@ -22,25 +22,22 @@ const todoSlice = createSlice({
             state.todos.push(todo);
         },
         deleteTodo: (state, action) => {
-            state.todos = state.todos.filter((todo) => todo._id !== action.payload.id);
+            state.todos = state.todos.filter(todo => todo._id !== action.payload);
         },
         updateTodo: (state, action) => {
             const editedTodo = {
-                id: action.payload.id,
+                _id: action.payload.id,
                 title: action.payload.title,
                 description: action.payload.description,
                 completed: action.payload.completed
             };
-            state.todos = state.todos.map((todo) => todo._id == editedTodo._id ? editedTodo : todo);
+            state.todos = state.todos.map((todo) => todo._id === editedTodo._id ? editedTodo : todo);
         },
         completeTodo: (state, action) => {
-            const completedTodo = {
-                id: action.payload.id,
-                title: action.payload.title,
-                description: action.payload.description,
-                completed: action.payload.completed
-            };
-            state.todos = state.todos.map((todo) => todo._id == completedTodo._id ? completedTodo : todo);
+            const todo = state.todos.find(todo => todo._id === action.payload);
+            if (todo) {
+                todo.completed = true;
+            }
         },
         clearTodos: (state, action) => {
             state.todos = [];

@@ -35,10 +35,17 @@ const updateTodo = async(req: Request, res: Response) => {
     try{
         const { id } = req.params;
         const { title, description, completed } = req.body;
+        console.log(id, title, description, completed);
         const updatedTodo = await Todo.findByIdAndUpdate(
             id,
-            { title, description, completed },
-            { new: true }
+            { 
+                title, 
+                description, 
+                completed: (completed ? true : false) 
+            },
+            { 
+                new: true 
+            }
         );
 
         if(!updatedTodo){

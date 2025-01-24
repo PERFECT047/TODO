@@ -2,15 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckCircleOutlineIcon from '@mui/icons-material/CheckCircleOutline';
-import { TodoItems } from '../models/models';
+import { Todo, TodoItems } from '../models/models';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import { completeTodo, deleteTodo } from '../features/todo/todoSlice';
 
 
 
-const TodoItem: React.FC<TodoItems> = ({ title, description, key, completed }) => {
-  console.log(key, completed);
+const TodoItem: React.FC<Todo> = ({ title, description, _id, completed }) => {
+  console.log(_id, completed);
   const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; 
 
   const dispatch = useDispatch();
@@ -19,8 +19,14 @@ const TodoItem: React.FC<TodoItems> = ({ title, description, key, completed }) =
 
   const deleteHandler = async() => {
     try{
-      await axios.delete(`${BACKEND_URL}${key}`);
-      dispatch(deleteTodo(key));
+      await axios.delete(`${BACKEND_URL}${_id}`);
+      const todo = {
+        _id,
+        title,
+        description,
+        completed
+      }
+      dispatch(deleteTodo(todo));
     }
     catch(err){
       console.log(err);
@@ -31,12 +37,15 @@ const TodoItem: React.FC<TodoItems> = ({ title, description, key, completed }) =
   const completeHandler = async() => {
     try{
       const todo = {
-        _id: key,
-        title: title,
-        description: description,
+        _id,
+        title,
+        description,
         completed: true
       }
-      await axios.put(`${BACKEND_URL}${key}`);
+      console.log(todo);
+      const res = await axios.put(`${BACKEND_URL}${_id}`, todo);
+      console.log(res);
+      dispatch(deleteTodo(todo));
       dispatch(completeTodo(todo));
     }
     catch(err){
@@ -53,9 +62,9 @@ const TodoItem: React.FC<TodoItems> = ({ title, description, key, completed }) =
       </div>
 
       <div className="flex items-center space-x-8">
-        <button onClick={() => navigate('/edit')}><ModeEditIcon className="pmhclr cursor-pointer hover:scale-110 transition-transform" /></button>
+        <button onClick={() => navigate(`/edit/${_id}`)}><ModeEditIcon className="pmhclr cursor-pointer hover:scale-110 transition-transform" /></button>
         <button onClick={deleteHandler}><DeleteIcon className="pmhclr cursor-pointer hover:scale-110 transition-transform" /></button>
-        <button onClick={completeHandler}><CheckCircleOutlineIcon className={"pmhclr cursor-pointer hover:scale-110 transition-transform" + (completed ? " cursor-not-allowed" : " ")} /></button>
+        <button onClick={completeHandler}><CheckCircleOutlineIcon className={"pmhclr cursor-pointer hover:scale-110 transition-transform " + (completed ? "font-black" : "")} /></button>
       </div>
     </div>
   );

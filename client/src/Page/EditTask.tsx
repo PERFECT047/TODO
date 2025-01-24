@@ -1,6 +1,10 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Header from "../components/Header";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../features/todo/todoSlice";
+import axios from "axios";
+import { useParams } from "react-router-dom";
 
 type FormValues = {
   title: string;
@@ -8,6 +12,11 @@ type FormValues = {
 };
 
 const AddTask: React.FC = () => {
+
+  const { id } = useParams();
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; 
+  const dispatch = useDispatch();
+  
   const {
     register,
     handleSubmit,
@@ -15,9 +24,24 @@ const AddTask: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
-    console.log("Task Added:", data);
-    reset();
+  const onSubmit: SubmitHandler<FormValues> = async (data) => {
+    try{
+      
+      const todo = await axios.put(`${BACKEND_URL}${id}`,{
+
+        title: data.title,
+        description: data.description
+      })
+
+      console.log(todo.data);
+
+      dispatch(clearTodo());
+
+      reset();
+    }
+    catch(err){
+      console.log(err);
+    }
   };
 
   return (
@@ -71,3 +95,7 @@ const AddTask: React.FC = () => {
 };
 
 export default AddTask;
+function clearTodo(): any {
+  throw new Error("Function not implemented.");
+}
+
