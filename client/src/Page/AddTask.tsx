@@ -1,6 +1,9 @@
 import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import Header from "../components/Header";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../features/todo/todoSlice";
 
 type FormValues = {
   title: string;
@@ -8,6 +11,9 @@ type FormValues = {
 };
 
 const AddTask: React.FC = () => {
+
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL; 
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -15,10 +21,26 @@ const AddTask: React.FC = () => {
     formState: { errors },
   } = useForm<FormValues>();
 
-  const onSubmit: SubmitHandler<FormValues> = (data) => {
+  const onSubmit: SubmitHandler<FormValues> = async(data) => {
     console.log("Task Added:", data);
-    // Reset form fields
-    reset();
+
+    try{
+      
+      const todo = await axios.post(`${BACKEND_URL}`,{
+        title: data.title,
+        description: data.description
+      })
+
+      console.log(todo.data);
+
+      dispatch(addTodo(todo));
+
+      reset();
+    }
+    catch(err){
+      console.log(err);
+    }
+    
   };
 
   return (

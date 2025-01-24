@@ -13,7 +13,7 @@ const Todos: React.FC = () => {
       <div className="flex flex-col h-full min-w-xl rounded-md bg-white overflow-hidden relative">
         <TopBar />
         <main className="flex-grow overflow-y-auto">
-          <TodoList />
+          <TodoList type="all" />
         </main>
         <Footer />
 
